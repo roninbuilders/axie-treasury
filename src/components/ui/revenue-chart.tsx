@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Area, AreaChart, Bar, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -25,116 +25,573 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
 const chartData = [
-  { date: "2024-04-01", desktop: 222, mobile: 150 },
-  { date: "2024-04-02", desktop: 97, mobile: 180 },
-  { date: "2024-04-03", desktop: 167, mobile: 120 },
-  { date: "2024-04-04", desktop: 242, mobile: 260 },
-  { date: "2024-04-05", desktop: 373, mobile: 290 },
-  { date: "2024-04-06", desktop: 301, mobile: 340 },
-  { date: "2024-04-07", desktop: 245, mobile: 180 },
-  { date: "2024-04-08", desktop: 409, mobile: 320 },
-  { date: "2024-04-09", desktop: 59, mobile: 110 },
-  { date: "2024-04-10", desktop: 261, mobile: 190 },
-  { date: "2024-04-11", desktop: 327, mobile: 350 },
-  { date: "2024-04-12", desktop: 292, mobile: 210 },
-  { date: "2024-04-13", desktop: 342, mobile: 380 },
-  { date: "2024-04-14", desktop: 137, mobile: 220 },
-  { date: "2024-04-15", desktop: 120, mobile: 170 },
-  { date: "2024-04-16", desktop: 138, mobile: 190 },
-  { date: "2024-04-17", desktop: 446, mobile: 360 },
-  { date: "2024-04-18", desktop: 364, mobile: 410 },
-  { date: "2024-04-19", desktop: 243, mobile: 180 },
-  { date: "2024-04-20", desktop: 89, mobile: 150 },
-  { date: "2024-04-21", desktop: 137, mobile: 200 },
-  { date: "2024-04-22", desktop: 224, mobile: 170 },
-  { date: "2024-04-23", desktop: 138, mobile: 230 },
-  { date: "2024-04-24", desktop: 387, mobile: 290 },
-  { date: "2024-04-25", desktop: 215, mobile: 250 },
-  { date: "2024-04-26", desktop: 75, mobile: 130 },
-  { date: "2024-04-27", desktop: 383, mobile: 420 },
-  { date: "2024-04-28", desktop: 122, mobile: 180 },
-  { date: "2024-04-29", desktop: 315, mobile: 240 },
-  { date: "2024-04-30", desktop: 454, mobile: 380 },
-  { date: "2024-05-01", desktop: 165, mobile: 220 },
-  { date: "2024-05-02", desktop: 293, mobile: 310 },
-  { date: "2024-05-03", desktop: 247, mobile: 190 },
-  { date: "2024-05-04", desktop: 385, mobile: 420 },
-  { date: "2024-05-05", desktop: 481, mobile: 390 },
-  { date: "2024-05-06", desktop: 498, mobile: 520 },
-  { date: "2024-05-07", desktop: 388, mobile: 300 },
-  { date: "2024-05-08", desktop: 149, mobile: 210 },
-  { date: "2024-05-09", desktop: 227, mobile: 180 },
-  { date: "2024-05-10", desktop: 293, mobile: 330 },
-  { date: "2024-05-11", desktop: 335, mobile: 270 },
-  { date: "2024-05-12", desktop: 197, mobile: 240 },
-  { date: "2024-05-13", desktop: 197, mobile: 160 },
-  { date: "2024-05-14", desktop: 448, mobile: 490 },
-  { date: "2024-05-15", desktop: 473, mobile: 380 },
-  { date: "2024-05-16", desktop: 338, mobile: 400 },
-  { date: "2024-05-17", desktop: 499, mobile: 420 },
-  { date: "2024-05-18", desktop: 315, mobile: 350 },
-  { date: "2024-05-19", desktop: 235, mobile: 180 },
-  { date: "2024-05-20", desktop: 177, mobile: 230 },
-  { date: "2024-05-21", desktop: 82, mobile: 140 },
-  { date: "2024-05-22", desktop: 81, mobile: 120 },
-  { date: "2024-05-23", desktop: 252, mobile: 290 },
-  { date: "2024-05-24", desktop: 294, mobile: 220 },
-  { date: "2024-05-25", desktop: 201, mobile: 250 },
-  { date: "2024-05-26", desktop: 213, mobile: 170 },
-  { date: "2024-05-27", desktop: 420, mobile: 460 },
-  { date: "2024-05-28", desktop: 233, mobile: 190 },
-  { date: "2024-05-29", desktop: 78, mobile: 130 },
-  { date: "2024-05-30", desktop: 340, mobile: 280 },
-  { date: "2024-05-31", desktop: 178, mobile: 230 },
-  { date: "2024-06-01", desktop: 178, mobile: 200 },
-  { date: "2024-06-02", desktop: 470, mobile: 410 },
-  { date: "2024-06-03", desktop: 103, mobile: 160 },
-  { date: "2024-06-04", desktop: 439, mobile: 380 },
-  { date: "2024-06-05", desktop: 88, mobile: 140 },
-  { date: "2024-06-06", desktop: 294, mobile: 250 },
-  { date: "2024-06-07", desktop: 323, mobile: 370 },
-  { date: "2024-06-08", desktop: 385, mobile: 320 },
-  { date: "2024-06-09", desktop: 438, mobile: 480 },
-  { date: "2024-06-10", desktop: 155, mobile: 200 },
-  { date: "2024-06-11", desktop: 92, mobile: 150 },
-  { date: "2024-06-12", desktop: 492, mobile: 420 },
-  { date: "2024-06-13", desktop: 81, mobile: 130 },
-  { date: "2024-06-14", desktop: 426, mobile: 380 },
-  { date: "2024-06-15", desktop: 307, mobile: 350 },
-  { date: "2024-06-16", desktop: 371, mobile: 310 },
-  { date: "2024-06-17", desktop: 475, mobile: 520 },
-  { date: "2024-06-18", desktop: 107, mobile: 170 },
-  { date: "2024-06-19", desktop: 341, mobile: 290 },
-  { date: "2024-06-20", desktop: 408, mobile: 450 },
-  { date: "2024-06-21", desktop: 169, mobile: 210 },
-  { date: "2024-06-22", desktop: 317, mobile: 270 },
-  { date: "2024-06-23", desktop: 480, mobile: 530 },
-  { date: "2024-06-24", desktop: 132, mobile: 180 },
-  { date: "2024-06-25", desktop: 141, mobile: 190 },
-  { date: "2024-06-26", desktop: 434, mobile: 380 },
-  { date: "2024-06-27", desktop: 448, mobile: 490 },
-  { date: "2024-06-28", desktop: 149, mobile: 200 },
-  { date: "2024-06-29", desktop: 103, mobile: 160 },
-  { date: "2024-06-30", desktop: 446, mobile: 400 },
+  {
+    "date": 1711929600000,
+    "inflows": 222,
+    "outflows": 150,
+    "value": 900
+  },
+  {
+    "date": 1712016000000,
+    "inflows": 97,
+    "outflows": 180,
+    "value": 900
+  },
+  {
+    "date": 1712102400000,
+    "inflows": 167,
+    "outflows": 120,
+    "value": 900
+  },
+  {
+    "date": 1712188800000,
+    "inflows": 242,
+    "outflows": 260,
+    "value": 900
+  },
+  {
+    "date": 1712275200000,
+    "inflows": 373,
+    "outflows": 290,
+    "value": 9000
+  },
+  {
+    "date": 1712361600000,
+    "inflows": 301,
+    "outflows": 340,
+    "value": 9000
+  },
+  {
+    "date": 1712448000000,
+    "inflows": 245,
+    "outflows": 180,
+    "value": 9000
+  },
+  {
+    "date": 1712534400000,
+    "inflows": 409,
+    "outflows": 320,
+    "value": 9000
+  },
+  {
+    "date": 1712620800000,
+    "inflows": 59,
+    "outflows": 110,
+    "value": 9000
+  },
+  {
+    "date": 1712707200000,
+    "inflows": 261,
+    "outflows": 190,
+    "value": 9000
+  },
+  {
+    "date": 1712793600000,
+    "inflows": 327,
+    "outflows": 350,
+    "value": 9000
+  },
+  {
+    "date": 1712880000000,
+    "inflows": 292,
+    "outflows": 210,
+    "value": 9000
+  },
+  {
+    "date": 1712966400000,
+    "inflows": 342,
+    "outflows": 380,
+    "value": 9000
+  },
+  {
+    "date": 1713052800000,
+    "inflows": 137,
+    "outflows": 220,
+    "value": 9000
+  },
+  {
+    "date": 1713139200000,
+    "inflows": 120,
+    "outflows": 170,
+    "value": 9000
+  },
+  {
+    "date": 1713225600000,
+    "inflows": 138,
+    "outflows": 190,
+    "value": 9000
+  },
+  {
+    "date": 1713312000000,
+    "inflows": 446,
+    "outflows": 360,
+    "value": 9000
+  },
+  {
+    "date": 1713398400000,
+    "inflows": 364,
+    "outflows": 410,
+    "value": 9000
+  },
+  {
+    "date": 1713484800000,
+    "inflows": 243,
+    "outflows": 180,
+    "value": 9000
+  },
+  {
+    "date": 1713571200000,
+    "inflows": 89,
+    "outflows": 150,
+    "value": 9000
+  },
+  {
+    "date": 1713657600000,
+    "inflows": 137,
+    "outflows": 200,
+    "value": 9000
+  },
+  {
+    "date": 1713744000000,
+    "inflows": 224,
+    "outflows": 170,
+    "value": 9000
+  },
+  {
+    "date": 1713830400000,
+    "inflows": 138,
+    "outflows": 230,
+    "value": 9000
+  },
+  {
+    "date": 1713916800000,
+    "inflows": 387,
+    "outflows": 290,
+    "value": 9000
+  },
+  {
+    "date": 1714003200000,
+    "inflows": 215,
+    "outflows": 250,
+    "value": 9000
+  },
+  {
+    "date": 1714089600000,
+    "inflows": 75,
+    "outflows": 130,
+    "value": 1000
+  },
+  {
+    "date": 1714176000000,
+    "inflows": 383,
+    "outflows": 420,
+    "value": 1000
+  },
+  {
+    "date": 1714262400000,
+    "inflows": 122,
+    "outflows": 180,
+    "value": 1000
+  },
+  {
+    "date": 1714348800000,
+    "inflows": 315,
+    "outflows": 240,
+    "value": 1000
+  },
+  {
+    "date": 1714435200000,
+    "inflows": 454,
+    "outflows": 380,
+    "value": 1000
+  },
+  {
+    "date": 1714521600000,
+    "inflows": 165,
+    "outflows": 220,
+    "value": 1000
+  },
+  {
+    "date": 1714608000000,
+    "inflows": 293,
+    "outflows": 310,
+    "value": 1000
+  },
+  {
+    "date": 1714694400000,
+    "inflows": 247,
+    "outflows": 190,
+    "value": 1000
+  },
+  {
+    "date": 1714780800000,
+    "inflows": 385,
+    "outflows": 420,
+    "value": 1000
+  },
+  {
+    "date": 1714867200000,
+    "inflows": 481,
+    "outflows": 390,
+    "value": 1000
+  },
+  {
+    "date": 1714953600000,
+    "inflows": 498,
+    "outflows": 520,
+    "value": 1000
+  },
+  {
+    "date": 1715040000000,
+    "inflows": 388,
+    "outflows": 300,
+    "value": 1000
+  },
+  {
+    "date": 1715126400000,
+    "inflows": 149,
+    "outflows": 210,
+    "value": 1000
+  },
+  {
+    "date": 1715212800000,
+    "inflows": 227,
+    "outflows": 180,
+    "value": 10000
+  },
+  {
+    "date": 1715299200000,
+    "inflows": 293,
+    "outflows": 330,
+    "value": 10000
+  },
+  {
+    "date": 1715385600000,
+    "inflows": 335,
+    "outflows": 270,
+    "value": 10000
+  },
+  {
+    "date": 1715472000000,
+    "inflows": 197,
+    "outflows": 240,
+    "value": 10000
+  },
+  {
+    "date": 1715558400000,
+    "inflows": 197,
+    "outflows": 160,
+    "value": 10000
+  },
+  {
+    "date": 1715644800000,
+    "inflows": 448,
+    "outflows": 490,
+    "value": 10000
+  },
+  {
+    "date": 1715731200000,
+    "inflows": 473,
+    "outflows": 380,
+    "value": 10000
+  },
+  {
+    "date": 1715817600000,
+    "inflows": 338,
+    "outflows": 400,
+    "value": 10000
+  },
+  {
+    "date": 1715904000000,
+    "inflows": 499,
+    "outflows": 420,
+    "value": 10000
+  },
+  {
+    "date": 1715990400000,
+    "inflows": 315,
+    "outflows": 350,
+    "value": 10000
+  },
+  {
+    "date": 1716076800000,
+    "inflows": 235,
+    "outflows": 180,
+    "value": 10000
+  },
+  {
+    "date": 1716163200000,
+    "inflows": 177,
+    "outflows": 230,
+    "value": 10000
+  },
+  {
+    "date": 1716249600000,
+    "inflows": 82,
+    "outflows": 140,
+    "value": 10000
+  },
+  {
+    "date": 1716336000000,
+    "inflows": 81,
+    "outflows": 120,
+    "value": 10000
+  },
+  {
+    "date": 1716422400000,
+    "inflows": 252,
+    "outflows": 290,
+    "value": 10000
+  },
+  {
+    "date": 1716508800000,
+    "inflows": 294,
+    "outflows": 220,
+    "value": 10000
+  },
+  {
+    "date": 1716595200000,
+    "inflows": 201,
+    "outflows": 250,
+    "value": 10000
+  },
+  {
+    "date": 1716681600000,
+    "inflows": 213,
+    "outflows": 170,
+    "value": 10000
+  },
+  {
+    "date": 1716768000000,
+    "inflows": 420,
+    "outflows": 460,
+    "value": 10000
+  },
+  {
+    "date": 1716854400000,
+    "inflows": 233,
+    "outflows": 190,
+    "value": 10000
+  },
+  {
+    "date": 1716940800000,
+    "inflows": 78,
+    "outflows": 130,
+    "value": 10000
+  },
+  {
+    "date": 1717027200000,
+    "inflows": 340,
+    "outflows": 280,
+    "value": 10000
+  },
+  {
+    "date": 1717113600000,
+    "inflows": 178,
+    "outflows": 230,
+    "value": 10000
+  },
+  {
+    "date": 1717200000000,
+    "inflows": 178,
+    "outflows": 200,
+    "value": 10000
+  },
+  {
+    "date": 1717286400000,
+    "inflows": 470,
+    "outflows": 410,
+    "value": 10000
+  },
+  {
+    "date": 1717372800000,
+    "inflows": 103,
+    "outflows": 160,
+    "value": 10000
+  },
+  {
+    "date": 1717459200000,
+    "inflows": 439,
+    "outflows": 380,
+    "value": 10000
+  },
+  {
+    "date": 1717545600000,
+    "inflows": 88,
+    "outflows": 140,
+    "value": 10000
+  },
+  {
+    "date": 1717632000000,
+    "inflows": 294,
+    "outflows": 250,
+    "value": 10000
+  },
+  {
+    "date": 1717718400000,
+    "inflows": 323,
+    "outflows": 370,
+    "value": 10000
+  },
+  {
+    "date": 1717804800000,
+    "inflows": 385,
+    "outflows": 320,
+    "value": 10000
+  },
+  {
+    "date": 1717891200000,
+    "inflows": 438,
+    "outflows": 480,
+    "value": 10000
+  },
+  {
+    "date": 1717977600000,
+    "inflows": 155,
+    "outflows": 200,
+    "value": 10000
+  },
+  {
+    "date": 1718064000000,
+    "inflows": 92,
+    "outflows": 150,
+    "value": 10000
+  },
+  {
+    "date": 1718150400000,
+    "inflows": 492,
+    "outflows": 420,
+    "value": 10000
+  },
+  {
+    "date": 1718236800000,
+    "inflows": 81,
+    "outflows": 130,
+    "value": 10000
+  },
+  {
+    "date": 1718323200000,
+    "inflows": 426,
+    "outflows": 380,
+    "value": 10000
+  },
+  {
+    "date": 1718409600000,
+    "inflows": 307,
+    "outflows": 350,
+    "value": 10000
+  },
+  {
+    "date": 1718496000000,
+    "inflows": 371,
+    "outflows": 310,
+    "value": 10000
+  },
+  {
+    "date": 1718582400000,
+    "inflows": 475,
+    "outflows": 520,
+    "value": 10000
+  },
+  {
+    "date": 1718668800000,
+    "inflows": 107,
+    "outflows": 170,
+    "value": 10000
+  },
+  {
+    "date": 1718755200000,
+    "inflows": 341,
+    "outflows": 290,
+    "value": 10000
+  },
+  {
+    "date": 1718841600000,
+    "inflows": 408,
+    "outflows": 450,
+    "value": 10000
+  },
+  {
+    "date": 1718928000000,
+    "inflows": 169,
+    "outflows": 210,
+    "value": 10000
+  },
+  {
+    "date": 1719014400000,
+    "inflows": 317,
+    "outflows": 270,
+    "value": 10000
+  },
+  {
+    "date": 1719100800000,
+    "inflows": 480,
+    "outflows": 530,
+    "value": 10000
+  },
+  {
+    "date": 1719187200000,
+    "inflows": 132,
+    "outflows": 180,
+    "value": 10000
+  },
+  {
+    "date": 1719273600000,
+    "inflows": 141,
+    "outflows": 190,
+    "value": 10000
+  },
+  {
+    "date": 1719360000000,
+    "inflows": 434,
+    "outflows": 380,
+    "value": 10000
+  },
+  {
+    "date": 1719446400000,
+    "inflows": 448,
+    "outflows": 490,
+    "value": 10000
+  },
+  {
+    "date": 1719532800000,
+    "inflows": 149,
+    "outflows": 200,
+    "value": 11000
+  },
+  {
+    "date": 1719619200000,
+    "inflows": 103,
+    "outflows": 160,
+    "value": 11000
+  },
+  {
+    "date": 1719705600000,
+    "inflows": 446,
+    "outflows": 400,
+    "value": 11000
+  }
 ]
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  desktop: {
-    label: "Desktop",
+  value: {
+    label: "Treasury",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
+  inflows: {
+    label: "Inflows",
+    color: "hsl(var(--chart-7))",
+  },
+  outflows: {
+    label: "Outflows",
+    color: "hsl(var(--chart-8))",
   },
 } satisfies ChartConfig
 
 export function RevenueChart() {
-  const [timeRange, setTimeRange] = React.useState("90d")
+  const [timeRange, setTimeRange] = React.useState("30d")
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date)
@@ -153,9 +610,9 @@ export function RevenueChart() {
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Interactive chart</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Showing total treasury value, inflows, and outflows.
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
@@ -166,6 +623,12 @@ export function RevenueChart() {
             <SelectValue placeholder="Last 3 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
+            <SelectItem value="historical" className="rounded-lg">
+              Historical
+            </SelectItem>
+            <SelectItem value="360d" className="rounded-lg">
+              Last year
+            </SelectItem>
             <SelectItem value="90d" className="rounded-lg">
               Last 3 months
             </SelectItem>
@@ -183,34 +646,13 @@ export function RevenueChart() {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <ComposedChart data={filteredData} >
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
+              <linearGradient id="treasury" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={1} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
               tickLine={false}
@@ -225,36 +667,24 @@ export function RevenueChart() {
                 })
               }}
             />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })
-                  }}
-                  indicator="dot"
-                />
-              }
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
+            <YAxis />
+            <CartesianGrid vertical={false} />
+            <Area type="monotone" dataKey="value" fill="url(#treasury)" stroke="#8884d8" />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
+            <Bar
+              dataKey="outflows"
+              stackId="a"
+              fill="red"
+              radius={[0, 0, 0, 0]}
+            />
+            <Bar
+              dataKey="inflows"
+              stackId="a"
+              fill="green"
+              radius={[4, 4, 0, 0]}
+            />
+          </ComposedChart>
         </ChartContainer>
       </CardContent>
     </Card>
