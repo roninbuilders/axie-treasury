@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google"
 import { cn } from "@/lib/utils"
 import "./globals.css";
-import Navbar from "@/components/layout/nadvar";
+import Navbar from "@/components/layout/navbar";
 
 const fontSans = Space_Grotesk({
   subsets: ["latin"],
