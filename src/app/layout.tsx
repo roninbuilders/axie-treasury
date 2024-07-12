@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google"
+import { Space_Grotesk } from "next/font/google"
 import { cn } from "@/lib/utils"
 import "./globals.css";
+import Navbar from "@/components/layout/nadvar";
 
-const fontSans = FontSans({
+const fontSans = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
 })
@@ -23,10 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased text-neutral-950 bg-neutral-50",
           fontSans.variable
         )}
-      >{children}</body>
+      >
+        <Navbar/>
+        {children}</body>
     </html>
   );
 }

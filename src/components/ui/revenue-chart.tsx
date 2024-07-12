@@ -578,7 +578,7 @@ const chartData = [
 const chartConfig = {
   value: {
     label: "Treasury",
-    color: "hsl(var(--chart-1))",
+    color: "red",
   },
   inflows: {
     label: "Inflows",
@@ -649,8 +649,8 @@ export function RevenueChart() {
           <ComposedChart data={filteredData} >
             <defs>
               <linearGradient id="treasury" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={1} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                <stop offset="5%" stopColor="#2662d9" stopOpacity={1} />
+                <stop offset="95%" stopColor="#93c5fd" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis
@@ -669,7 +669,7 @@ export function RevenueChart() {
             />
             <YAxis />
             <CartesianGrid vertical={false} />
-            <Area type="monotone" dataKey="value" fill="url(#treasury)" stroke="#8884d8" />
+            <Area type="monotone" dataKey="value" fill="url(#treasury)" stroke="#2662d9" />
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar
@@ -681,7 +681,7 @@ export function RevenueChart() {
             <Bar
               dataKey="inflows"
               stackId="a"
-              fill="green"
+              fill="blue"
               radius={[4, 4, 0, 0]}
             />
           </ComposedChart>

@@ -87,6 +87,7 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
       itemConfig.color
+      console.log(color)
     return color ? `  --color-${key}: ${color};` : null
   })
   .join("\n")}
