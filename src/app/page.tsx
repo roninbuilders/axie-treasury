@@ -2,7 +2,6 @@ import { IMAGES } from "@/components/images/constants";
 import { FloatingImage } from "@/components/images/FloatingImage";
 import { InflowsChart } from "@/components/ui/inflows-chart";
 import { RevenueChart } from "@/components/ui/revenue-chart";
-import Image from "next/image";
 import { Suspense } from "react";
 
 export default function Home() {
