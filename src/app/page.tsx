@@ -10,10 +10,11 @@ export default function Home() {
       <div className="w-full relative flex flec-col item-center justify-center" >
       <div className="max-w-2xl">
         <p className="text-lg">
-          Curious about how Axie Infinity&apos;s treasury is doing? This chart tells the story of our growing revenue since March 29, 2022!
+          <span className="font-bold" >Curious about how Axie Infinity&apos;s treasury is doing? </span><br/>
+           This chart tells the story of our growing revenue since March 29, 2022!
         </p>
 
-        <p className="my-4 text-lg">
+        <p className="my-4 text-lg pb-2">
           See how the inflows comes in from activities like breeding, minting, and marketplace sales by clicking on the chart below.
         </p>
         <Suspense fallback={<div>Loading...</div>}>
