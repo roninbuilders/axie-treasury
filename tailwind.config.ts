@@ -22,6 +22,9 @@ const config = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      maxWidth: {
+        '6xl': '72rem',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

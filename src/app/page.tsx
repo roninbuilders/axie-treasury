@@ -1,5 +1,4 @@
 import { BarChatExample1 } from "@/components/ui/bar-chart";
-import { IMAGES } from "@/components/images/constants";
 import { InflowsChart } from "@/components/ui/inflows-chart";
 import { ListPricesInfos } from "@/components/ui/list-prices-infos";
 import { RevenueChart } from "@/components/ui/revenue-chart";
@@ -7,7 +6,7 @@ import { Suspense } from "react";
 import { ZoomableChart } from "@/components/ui/line-chat-with-zoom";
 import { FloatingImages } from "@/components/ui/floating-images";
 
-export default function Home() {
+const Home = () => {
   return (
     <main
       className="flex flex-col items-center p-2 justify-center"
@@ -28,6 +27,31 @@ export default function Home() {
             See how the inflows comes in from activities like breeding, minting,
             and marketplace sales by clicking on the chart below.
           </p>
+
+          <div className="bg-gray-800 py-5 lg:py-15 mb-5" id="kt_toolbar">
+            <div
+              id="kt_toolbar_container"
+              className="container mx-auto flex justify-between items-center"
+            >
+              <div className="flex flex-col">
+                <h1 className="text-white font-bold text-3xl my-1">
+                  Axie Infinity Treasury
+                </h1>
+              </div>
+              <div className="flex items-center py-1">
+                <div className="mr-4">
+                  <a
+                    href="https://blog.axieinfinity.com/p/axiegov-data-hackathon"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition duration-300"
+                  >
+                    Visit Axie Infinity Blog
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="flex flex-wrap -mx-2 mb-4">
             <div className="w-full md:w-1/2 px-2 mb-4">
@@ -81,4 +105,6 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
+
+export default Home;
