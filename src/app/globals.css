@@ -70,3 +70,9 @@
       @apply bg-background text-foreground;
     }
   }
+
+  * {
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f43 transparent;
+  }
