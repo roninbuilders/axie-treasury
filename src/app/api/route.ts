@@ -1,6 +1,6 @@
 
 import { NextResponse, type NextRequest } from 'next/server'
-import jsonData from './transfers_since_36370765.json';
+import jsonData from './transfers_since_16377111.json';
 
 type AggregationTime = 'block' | '1d';
 
