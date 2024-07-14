@@ -41,7 +41,7 @@ const Home = () => {
               <div className="flex items-center py-1">
                 <div className="mr-4">
                   <a
-                    href="https://blog.axieinfinity.com/p/axiegov-data-hackathon"
+                    href="https://blog.axieinfinity.com/"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-block px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition duration-300"
@@ -53,7 +53,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap -mx-2 mb-4">
+          {/* <div className="flex flex-wrap -mx-2 mb-4">
             <div className="w-full md:w-1/2 px-2 mb-4">
               <div className="bg-white rounded-lg shadow p-4">
                 <h3 className="font-bold text-lg mb-2">Key Highlights</h3>
@@ -74,7 +74,7 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-wrap -mx-2 mb-4 h-full">
             <div className="w-full md:w-2/4 px-2 h-full  mb-4 md:mb-0">
@@ -84,11 +84,11 @@ const Home = () => {
               <BarChatExample1 />
             </div>
           </div>
-          <div className="flex flex-wrap -mx-2 mb-6">
+          {/* <div className="flex flex-wrap -mx-2 mb-6">
             <div className="w-full md:w-1/2 px-2 h-full">
               <ListPricesInfos />
             </div>
-          </div>
+          </div> */}
 
           <div className="w-full rounded-lg shadow mb-4">
             <Suspense fallback={<div>Loading...</div>}>
