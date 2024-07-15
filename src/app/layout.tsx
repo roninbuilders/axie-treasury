@@ -23,10 +23,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={cn('min-h-screen bg-background font-sans antialiased dark', fontSans.variable)}>
-					<QueryContext>
+				<QueryContext>
 					<Navbar />
 					{children}
-					</QueryContext>
+				</QueryContext>
 			</body>
 		</html>
 	)
