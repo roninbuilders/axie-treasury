@@ -12,22 +12,25 @@ import {
 	ChartTooltipContent,
 } from '@/components/ui/chart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { chartConfig, chartData } from '../mock/mock-charts-data'
+import { chartConfig } from '../mock/mock-charts-data'
+import { useTreasury } from '../../api/useTreasury'
+
+const formatBitInt = (a =>
+  (Number(a).toString().match(/e/) ? Number(Number(a).toString().match(/[^e]*/)[0]) : Number(a)).toFixed(2)
+)
 
 export function RevenueChart() {
 	const [timeRange, setTimeRange] = React.useState('30d')
 
-	const filteredData = chartData.filter((item) => {
-		const date = new Date(item.date)
-		const now = new Date()
-		let daysToSubtract = 90
-		if (timeRange === '30d') {
-			daysToSubtract = 30
-		} else if (timeRange === '7d') {
-			daysToSubtract = 7
+  const { data } = useTreasury(timeRange)
+
+	const filteredData = data?.data?.data.map((item) => {
+			return {
+			date: (new Date(item.time)).getTime(),
+			inflowsETH: formatBitInt((BigInt(item.treasuryETH)/10n**18n)),
+			inflowsAXS: formatBitInt((BigInt(item.treasuryAXS)/10n**18n)),
+			value: item.totalInflows,
 		}
-		now.setDate(now.getDate() - daysToSubtract)
-		return date >= now
 	})
 
 	return (
@@ -54,8 +57,11 @@ export function RevenueChart() {
 						<SelectItem value="30d" className="rounded-lg">
 							Last 30 days
 						</SelectItem>
-						<SelectItem value="7d" className="rounded-lg">
+						<SelectItem value="1w" className="rounded-lg">
 							Last 7 days
+						</SelectItem>
+						<SelectItem value="1d" className="rounded-lg">
+							Last day
 						</SelectItem>
 					</SelectContent>
 				</Select>
@@ -88,8 +94,8 @@ export function RevenueChart() {
 						<Area type="monotone" dataKey="value" fill="url(#treasury)" stroke="#2662d9" />
 						<ChartTooltip content={<ChartTooltipContent hideLabel />} />
 						<ChartLegend content={<ChartLegendContent />} />
-						<Bar dataKey="outflows" stackId="a" fill="red" radius={[0, 0, 0, 0]} />
-						<Bar dataKey="inflows" stackId="a" fill="blue" radius={[4, 4, 0, 0]} />
+						<Bar dataKey="inflowsETH" stackId="a" fill="red" radius={[0, 0, 0, 0]} />
+						<Bar dataKey="inflowsAXS" stackId="a" fill="blue" radius={[4, 4, 0, 0]} />
 					</ComposedChart>
 				</ChartContainer>
 			</CardContent>

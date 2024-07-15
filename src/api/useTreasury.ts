@@ -5,8 +5,6 @@ const getTreasury = (time: string) => {
 	console.log('time', time)
 	const data = api.get(`?agr_time=${time}`)
 
-	console.log(data)
-
 	return data
 }
 
