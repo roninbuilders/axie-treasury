@@ -2,11 +2,8 @@ import { Space_Grotesk } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import './globals.css'
 import Navbar from '@/components/layout/navbar'
-import { ReactNode } from 'react'
 import { Metadata } from 'next'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
-const queryClient = new QueryClient()
+import QueryContext from './QueryContext'
 
 const fontSans = Space_Grotesk({
 	subsets: ['latin'],
@@ -26,10 +23,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={cn('min-h-screen bg-background font-sans antialiased dark', fontSans.variable)}>
-				<QueryClientProvider client={queryClient}>
+					<QueryContext>
 					<Navbar />
 					{children}
-				</QueryClientProvider>
+					</QueryContext>
 			</body>
 		</html>
 	)
