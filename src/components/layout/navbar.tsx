@@ -1,24 +1,21 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import React, { useState } from "react";
+import Image from 'next/image'
+import React, { useState } from 'react'
 
 const Navbar: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+	const [isDarkMode, setIsDarkMode] = useState(true)
 
-  return (
-    <nav
-      className={`${isDarkMode ? "bg-[#100f21f2] text-blue-50" : "bg-white text-gray-800"
-        } shadow-md`}
-    >
-      <div className="max-w-6xl mb-4 mx-auto p-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex w-full items-center justify-start relative">
-            <Image className="mr-2" src='/shiny-logo.png' width={220 / 7} height={288 / 7} alt="Ronin" />
-            <h1 className="text-2xl font-bold text-center text-blue-50">Axie Treasury Chart</h1>
+	return (
+		<nav className={`${isDarkMode ? 'bg-[#100f21f2] text-blue-50' : 'bg-white text-gray-800'} shadow-md`}>
+			<div className="max-w-6xl mb-4 mx-auto p-4 sm:px-6 lg:px-8">
+				<div className="flex items-center justify-between h-16">
+					<div className="flex w-full items-center justify-start relative">
+						<Image className="mr-2" src="/shiny-logo.png" width={220 / 7} height={288 / 7} alt="Ronin" />
+						<h1 className="text-2xl font-bold text-center text-blue-50">Axie Treasury Chart</h1>
 
-            {/* Dark/Light Mode Switch */}
-            {/* <div className="hidden flex items-center space-x-4">
+						{/* Dark/Light Mode Switch */}
+						{/* <div className="hidden flex items-center space-x-4">
               <button onClick={() => setIsDarkMode(!isDarkMode)}>
                 {isDarkMode ? (
                   <svg
@@ -52,11 +49,11 @@ const Navbar: React.FC = () => {
                 )}
               </button>
             </div> */}
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-};
+					</div>
+				</div>
+			</div>
+		</nav>
+	)
+}
 
-export default Navbar;
+export default Navbar
