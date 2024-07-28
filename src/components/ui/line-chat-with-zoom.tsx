@@ -11,51 +11,19 @@ import {
 	ChartLegend,
 	ChartLegendContent,
 } from '@/components/ui/chart'
+import { useTreasuryHistory } from '@/api/useTreasury'
 
 type DataPoint = {
-	date: string
-	events: number
+	time: string
+	totalInflows: number
 }
 
 const chartConfig = {
-	events: {
-		label: 'Events',
+	totalInflows: {
+		label: 'Inflows Events',
 		color: 'hsl(var(--chart-1))',
 	},
 } satisfies ChartConfig
-
-const seedRandom = (seed: number) => {
-	const x = Math.sin(seed++) * 10000
-	return x - Math.floor(x)
-}
-
-const simulateData = (start = '2024-01-01T00:00:00Z', end = '2024-01-02T00:00:00Z') => {
-	const simulatedData = []
-	let baseValue = 50
-	for (
-		let currentDate = new Date(start);
-		currentDate <= new Date(end);
-		currentDate.setTime(currentDate.getTime() + 600000)
-	) {
-		const seed = currentDate.getTime()
-		baseValue = Math.max(
-			(baseValue +
-				((0.5 * (currentDate.getTime() - new Date(start).getTime())) /
-					(new Date(end).getTime() - new Date(start).getTime())) *
-					100 +
-				(seedRandom(seed) - 0.5) * 20 +
-				(seedRandom(seed + 1) < 0.1 ? (seedRandom(seed + 2) - 0.5) * 50 : 0) +
-				Math.sin(currentDate.getTime() / 3600000) * 10) *
-				(1 + (seedRandom(seed + 3) - 0.5) * 0.2),
-			1,
-		)
-		simulatedData.push({
-			date: currentDate.toISOString(),
-			events: Math.max(Math.floor(baseValue), 1),
-		})
-	}
-	return simulatedData
-}
 
 export function ZoomableChart() {
 	const [data, setData] = useState<DataPoint[]>([])
@@ -67,23 +35,28 @@ export function ZoomableChart() {
 	const [isSelecting, setIsSelecting] = useState(false)
 	const [isZooming, setIsZooming] = useState(false)
 	const chartRef = useRef<HTMLDivElement>(null)
+		const { data: res } = useTreasuryHistory()
 
 	useEffect(() => {
-		const simulatedData = simulateData()
-		setData(simulatedData)
-		setOriginalData(simulatedData)
-		setStartTime(simulatedData[0].date)
-		setEndTime(simulatedData[simulatedData.length - 1].date)
-	}, [])
+		if (!res) return
+		const dataPoints = (res.data.data as DataPoint[]).map((d) => ({
+			time: d.time,
+			totalInflows: d.totalInflows,
+		}))
+		setData(dataPoints)
+		setOriginalData(dataPoints)
+		setStartTime(dataPoints[0].time)
+		setEndTime(dataPoints[dataPoints.length - 1].time)
+	}, [res])
 
 	useEffect(() => {
 		if (startTime && endTime && !isZooming) {
-			const zoomedData = originalData.filter((d) => d.date >= startTime && d.date <= endTime)
+			const zoomedData = originalData.filter((d) => d.time >= startTime && d.time <= endTime)
 			setData(zoomedData.length > 1 ? zoomedData : originalData.slice(0, 2))
 		}
 	}, [startTime, endTime, originalData, isZooming])
 
-	const total = useMemo(() => data.reduce((acc, curr) => acc + curr.events, 0), [data])
+	const total = useMemo(() => data.reduce((acc, curr) => acc + curr.totalInflows, 0), [data])
 
 	const handleMouseDown = (e: any) => {
 		if (e.activeLabel) {
@@ -103,7 +76,7 @@ export function ZoomableChart() {
 			const [left, right] = [refAreaLeft, refAreaRight].sort()
 			setStartTime(left)
 			setEndTime(right)
-			const zoomedData = originalData.filter((d) => d.date >= left && d.date <= right)
+			const zoomedData = originalData.filter((d) => d.time >= left && d.time <= right)
 			setData(zoomedData.length > 1 ? zoomedData : originalData.slice(0, 2))
 		}
 		setRefAreaLeft(null)
@@ -112,8 +85,8 @@ export function ZoomableChart() {
 	}
 
 	const handleReset = () => {
-		setStartTime(originalData[0].date)
-		setEndTime(originalData[originalData.length - 1].date)
+		setStartTime(originalData[0].time)
+		setEndTime(originalData[originalData.length - 1].time)
 		setData(originalData)
 	}
 
@@ -126,8 +99,8 @@ export function ZoomableChart() {
 		const zoomFactor = 0.1
 		const direction = e.deltaY < 0 ? 1 : -1
 		const currentRange =
-			new Date(endTime || originalData[originalData.length - 1].date).getTime() -
-			new Date(startTime || originalData[0].date).getTime()
+			new Date(endTime || originalData[originalData.length - 1].time).getTime() -
+			new Date(startTime || originalData[0].time).getTime()
 		const zoomAmount = currentRange * zoomFactor * direction
 
 		const chartRect = chartRef.current.getBoundingClientRect()
@@ -135,8 +108,8 @@ export function ZoomableChart() {
 		const chartWidth = chartRect.width
 		const mousePercentage = mouseX / chartWidth
 
-		const currentStartTime = new Date(startTime || originalData[0].date).getTime()
-		const currentEndTime = new Date(endTime || originalData[originalData.length - 1].date).getTime()
+		const currentStartTime = new Date(startTime || originalData[0].time).getTime()
+		const currentEndTime = new Date(endTime || originalData[originalData.length - 1].time).getTime()
 
 		const newStartTime = new Date(currentStartTime + zoomAmount * mousePercentage)
 		const newEndTime = new Date(currentEndTime - zoomAmount * (1 - mousePercentage))
@@ -144,7 +117,7 @@ export function ZoomableChart() {
 		setStartTime(newStartTime.toISOString())
 		setEndTime(newEndTime.toISOString())
 
-		const zoomedData = originalData.filter((d) => new Date(d.date) >= newStartTime && new Date(d.date) <= newEndTime)
+		const zoomedData = originalData.filter((d) => new Date(d.time) >= newStartTime && new Date(d.time) <= newEndTime)
 
 		setData(zoomedData.length > 1 ? zoomedData : originalData.slice(0, 2))
 		setTimeout(() => setIsZooming(false), 300)
@@ -159,11 +132,11 @@ export function ZoomableChart() {
 		<Card className="w-full h-full">
 			<CardHeader className="flex-col items-stretch space-y-0 border-b p-0 sm:flex-row hidden sm:flex">
 				<div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-					<CardTitle>Zoomable Chart Demo</CardTitle>
+					<CardTitle>Treasury AXS + ETH Inflows Zoomable Chart</CardTitle>
 				</div>
 				<div className="flex">
 					<div className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l bg-muted/10 sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
-						<span className="text-xs text-muted-foreground">Events</span>
+						<span className="text-xs text-muted-foreground">Total inflows</span>
 						<span className="text-lg font-bold leading-none sm:text-3xl">{total.toLocaleString()}</span>
 					</div>
 				</div>
@@ -197,13 +170,13 @@ export function ZoomableChart() {
 							>
 								<defs>
 									<linearGradient id="colorEvents" x1="0" y1="0" x2="0" y2="1">
-										<stop offset="5%" stopColor={chartConfig.events.color} stopOpacity={0.8} />
-										<stop offset="95%" stopColor={chartConfig.events.color} stopOpacity={0.1} />
+										<stop offset="5%" stopColor={chartConfig.totalInflows.color} stopOpacity={0.8} />
+										<stop offset="95%" stopColor={chartConfig.totalInflows.color} stopOpacity={0.1} />
 									</linearGradient>
 								</defs>
 								<CartesianGrid vertical={false} />
 								<XAxis
-									dataKey="date"
+									dataKey="time"
 									tickFormatter={formatXAxis}
 									tickLine={false}
 									axisLine={false}
@@ -217,7 +190,7 @@ export function ZoomableChart() {
 									content={
 										<ChartTooltipContent
 											className="w-[150px] sm:w-[200px] font-mono text-xs sm:text-sm"
-											nameKey="events"
+											nameKey="totalInflows"
 											labelFormatter={(value) => new Date(value).toLocaleString()}
 										/>
 									}
@@ -225,8 +198,8 @@ export function ZoomableChart() {
 								<ChartLegend content={<ChartLegendContent />} />
 								<Area
 									type="monotone"
-									dataKey="events"
-									stroke={chartConfig.events.color}
+									dataKey="totalInflows"
+									stroke={chartConfig.totalInflows.color}
 									fillOpacity={1}
 									fill="url(#colorEvents)"
 									isAnimationActive={true}

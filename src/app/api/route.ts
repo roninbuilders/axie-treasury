@@ -3,7 +3,7 @@ import jsonData from './transfers_since_16377111.json'
 
 type AggregationTime = 'block' | '1d'
 
-type APIResponse = {
+export type APIResponse = {
 	time: string
 	treasuryETH: string
 	treasuryAXS: string
@@ -14,6 +14,45 @@ type APIResponse = {
 	blockTimestamp?: number
 }
 
+interface Balance {
+  ethEther: string;
+  ethWei: string;
+  axsEther: string;
+  axsWei: string;
+}
+
+interface Inflow {
+  ethEther: string;
+  ethWei: string;
+  axsEther: string;
+  axsWei: string;
+}
+
+interface Transfer {
+  from: string;
+  to: string;
+  value: string;
+  valueEther: string;
+  token: string;
+  hash: string;
+  source: string;
+  address: string;
+  blockHash: string;
+  logIndex: number;
+  transactionIndex: number;
+  topics: string[];
+}
+
+interface JSONData {
+  blockNumber: string;
+  transfersCount: number;
+  blockTimestamp: string;
+  balance: Balance;
+  inflow: Inflow;
+  transfers: Transfer[];
+}
+
+
 export async function GET(request: NextRequest) {
 	// Get the day parameter from the query string
 	const searchParams = request.nextUrl.searchParams
@@ -21,7 +60,7 @@ export async function GET(request: NextRequest) {
 	const start = searchParams.get('start') || false
 	const end = searchParams.get('end') || false
 
-	const filteredData = jsonData.filter((d: any) => {
+	const filteredData = (jsonData as JSONData[]).filter((d) => {
 		const blockTimestamp = Number(d.blockTimestamp) * 1000
 		if (start && end) {
 			return blockTimestamp >= new Date(start).getTime() && blockTimestamp <= new Date(end).getTime()

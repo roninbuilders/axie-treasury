@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "recharts": "^2.13.0-alpha.4",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.18.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
